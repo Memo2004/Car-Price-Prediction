@@ -1,0 +1,29 @@
+https://www.kaggle.com/code/ahmedismaiil/car-price-prediction-streamlit-app
+
+
+
+# The New of Shape Data
+print(f"Number of Row : {data.shape[0]}\nNumber of Columns : {data.shape[1]}")
+
+# Describe non Numiric 
+df.describe(exclude=np.number)
+
+#Number of Unique items
+print(f"Number of Unique Brand of Car {df['name'].nunique()}")
+
+
+#convert "Hyundai i20 Sportz Diesel" to this "Hyundai" in the same column
+Brands_of_car=df['name'].to_list()
+for i in range(len(Brands_of_car)):
+    car=Brands_of_car[i].split(' ')
+    Brands_of_car[i]=car[0]
+df['name'] = Brands_of_car
+
+
+#convert "23.4 kmpl" to this 23.4
+df["mileage"] = df["mileage"].str.replace(" kmpl", "", regex=True).astype(float)
+OR
+df["mileage"] = df["mileage"].apply(lambda x: float(x.split()[0]))
+
+#rename column
+df.rename(columns={'name':'Brand'},inplace=True)
