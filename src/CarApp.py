@@ -63,7 +63,6 @@ st.set_page_config(
   
 st.title('Car Price Prediction 🚀')
 
-#st.write("""This app predicts the price of a car based on its features""")
 
 image_path = os.path.join(BASE_DIR, "assets", "image.webp")
 st.image(image_path, use_container_width=True)
