@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 import pickle
 import os
 
@@ -61,26 +63,26 @@ st.set_page_config(
   
 st.title('Car Price Prediction 🚀')
 
-st.write("""This app predicts the price of a car based on its features""")
+#st.write("""This app predicts the price of a car based on its features""")
 
 image_path = os.path.join(BASE_DIR, "assets", "image.webp")
 st.image(image_path, use_container_width=True)
 
    
 # Input fields for user data
-with st.container(height=800):
+with st.container(height=600):
     st.header('Enter Car Details')
     col1 , col2 = st.columns(2)
     with col1:
         name = st.selectbox('Brand of Car', list_Cars)
-        year = st.number_input('Year of Manufacture', value=2000)
-        km_driven = st.number_input('KM Driven of Car', min_value=0, value=50000)
         fuel = st.selectbox('Type of Fuel', fuel_types)
         seller_type = st.selectbox('Type of Sellers', Seller_Types)
         transmission = st.selectbox('Type of Transmission', transmission_types)
         owner = st.selectbox('Type of Owner', owner_types)
         seats = st.selectbox('Number of Seat', seats_types)
     with col2:
+        km_driven = st.number_input('KM Driven of Car', min_value=0, value=50000)
+        year = st.number_input('Year of Manufacture', value=2000)
         mileage = st.slider('Mileage of Car' ,0,40,20)
         engine = st.slider('Engine of Car (CC)',0,4000,1200 )
         max_power = st.slider('Max Power of Car (hp)',0,1000,120 )
@@ -113,3 +115,21 @@ if st.button('Predict Price'):
         predicted_price = model.predict(input_data_encoded)[0]
         
         st.write(f'The Predicted Price is ₹{predicted_price:.2f}')
+        # Load feature importance from model
+        feature_importance = pd.DataFrame({
+            'feature': ['name', 'year', 'km_driven', 'fuel', 'seller_type', 'transmission', 'owner', 'mileage', 'engine', 'max_power', 'seats'],
+            'importance': model.feature_importances_
+        }).sort_values('importance', ascending=False)
+
+        # Feature Importance Visualization
+        st.subheader("Feature Importance")
+        fig, ax = plt.subplots(figsize=(8, 5))
+        sns.barplot(x='importance', y='feature', data=feature_importance, palette="viridis", ax=ax)
+        ax.set_title('Feature Importance in Predicting Car Price ')
+        ax.set_xlabel('Importance')
+        ax.set_ylabel('Features')
+        st.pyplot(fig) 
+
+      
+      
+     
