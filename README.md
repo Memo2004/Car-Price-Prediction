@@ -55,12 +55,6 @@ The dataset used in this project contains various features like car brand, model
 - Add more features for better predictions.
 - Deploy the model using cloud services.
 
-## Contributing
-Contributions are welcome! Feel free to fork the repository and submit pull requests.
-
-## License
-This project is licensed under the MIT License.
-
 ---
 **Author:** Mohammed Khaled
 
